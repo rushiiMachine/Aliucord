@@ -403,7 +403,11 @@ public final class Main {
     }
 
     private static void startAllPlugins() {
-        for (String name : PluginManager.plugins.keySet()) {
+        for (Map.Entry<String, Plugin> entry : PluginManager.plugins.entrySet()) {
+            // coreplugins are started separately
+            if (entry.getValue() instanceof CorePlugin) continue;
+
+            var name = entry.getKey();
             try {
                 if (PluginManager.isPluginEnabled(name))
                     PluginManager.startPlugin(name);
